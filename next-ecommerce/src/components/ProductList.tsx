@@ -11,18 +11,11 @@ const ProductList = () => {
       >
         <div className="relative w-full h-80">
           <Image
-            src="/logo.png"
+            src="/KMI_logo.png"
             alt=""
             fill
             sizes="25vw"
             className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity easy duration-500"
-          />
-          <Image
-            src="/cart.png"
-            alt=""
-            fill
-            sizes="25vw"
-            className="absolute object-cover rounded-md"
           />
         </div>
         <div className="flex justify-between">
