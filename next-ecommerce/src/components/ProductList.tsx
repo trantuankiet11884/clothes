@@ -11,9 +11,11 @@ const PRODUCT_PER_PAGE = 20;
 const ProductList = ({
   categoryId,
   limit,
+  searchParams,
 }: {
   categoryId: string;
   limit?: number;
+  searchParams?: any;
 }) => {
   const [data, setData] = useState<products.Product[]>([]);
   const WixClient = useWixClient();
@@ -51,6 +53,15 @@ const ProductList = ({
               sizes="25vw"
               className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity ease duration-500"
             />
+            {product.media?.items && (
+              <Image
+                src={product.media?.items[1]?.image?.url || "/product.png"}
+                alt=""
+                fill
+                sizes="25vw"
+                className="absolute object-cover rounded-md z-10 hover:opacity-0 transition-opacity easy duration-500"
+              />
+            )}
           </div>
           <div className="flex justify-between">
             <span className="font-medium">{product.name}</span>
