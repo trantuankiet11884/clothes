@@ -1,6 +1,7 @@
+import { wixClientServer } from "@/lib/wixClientServer";
 import React from "react";
 
-const LoginPage = () => {
+const LoginPage = async () => {
   return <div>LoginPage</div>;
 };
 
