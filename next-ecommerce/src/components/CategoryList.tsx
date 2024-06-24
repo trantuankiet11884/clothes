@@ -4,7 +4,7 @@ import React from "react";
 
 const CategoryList = () => {
   return (
-    <div className="px-4 overflow-x-scroll srcollbar-hide">
+    <div className="mt-12 px-4 overflow-x-scroll srcollbar-hide">
       <div className="flex gap-4 md:gap-8">
         <Link
           href="/list?cat=test"

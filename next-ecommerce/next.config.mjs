@@ -7,6 +7,7 @@ const nextConfig = {
         hostname: "images.pexels.com",
       },
     ],
+    domains: ["static.wixstatic.com"],
   },
 };
 
