@@ -23,20 +23,41 @@ const ProductList = ({
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await WixClient.products
+        let productQuery = WixClient.products
           .queryProducts()
+          .startsWith("name", searchParams?.name || "")
           .eq("collectionIds", categoryId)
+          .hasSome(
+            "productType",
+            searchParams?.type ? [searchParams.type] : ["physical", "digital"]
+          )
+          .gt("priceData.price", searchParams?.min || 0)
+          .lt("priceData.price", searchParams?.max || 999999)
           .limit(limit || PRODUCT_PER_PAGE)
-          .find();
+          .skip(
+            searchParams?.page
+              ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
+              : 0
+          );
 
+        if (searchParams?.sort) {
+          const [sortType, sortBy] = searchParams.sort.split(" ");
+          if (sortType === "asc") {
+            productQuery = productQuery.ascending(sortBy);
+          } else if (sortType === "desc") {
+            productQuery = productQuery.descending(sortBy);
+          }
+        }
+
+        const res = await productQuery.find();
         setData(res.items);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
     getProducts();
-  }, [categoryId, limit, WixClient]);
-  console.log(data);
+  }, [categoryId, limit, searchParams, WixClient]);
+
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
       {data.map((product: products.Product) => (
