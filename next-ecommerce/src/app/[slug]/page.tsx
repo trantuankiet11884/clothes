@@ -29,20 +29,26 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <div className="h-[2px] bg-gray-100" />
         {product.price?.price === product.price?.discountedPrice ? (
           <h2 className="font-medium text-2xl">
-            {product.price?.discountedPrice}
+            ${product.price?.discountedPrice}{" "}
           </h2>
         ) : (
           <div className="flex items-center gap-4">
             <h3 className="text-xl text-gray-500 line-through">
-              {product.price?.price}
+              ${product.price?.price}
             </h3>
             <h2 className="font-medium text-2xl">
-              {product.price?.discountedPrice}
+              ${product.price?.discountedPrice}
             </h2>
           </div>
         )}
         <div className="h-[2px] bg-gray-100" />
-        <CustomizeProducts />
+        {product.variants && product.productOptions && (
+          <CustomizeProducts
+            productId={product._id || ""}
+            varriants={product.variants || []}
+            productOptions={product.productOptions || []}
+          />
+        )}
         <Add />
 
         <div className="h-[2px] bg-gray-100" />
