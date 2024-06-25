@@ -1,37 +1,50 @@
 "use client";
 
 import { products } from "@wix/stores";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Add from "./Add";
 
 const CustomizeProducts = ({
   productId,
-  varriants,
+  variants,
   productOptions,
 }: {
   productId: string;
-  varriants: products.Variant[];
+  variants: products.Variant[];
   productOptions: products.ProductOption[];
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
   }>({});
+  const [selectedVariant, setSelectedVariant] = useState<products.Variant>();
+
+  useEffect(() => {
+    const variant = variants.find((v) => {
+      const variantChoices = v.choices;
+      if (!variantChoices) return false;
+      return Object.entries(selectedOptions).every(
+        ([key, value]) => variantChoices[key] === value
+      );
+    });
+    setSelectedVariant(variant);
+  }, [selectedOptions, variants]);
 
   const handleOptionSelect = (optionType: string, choice: string) => {
     setSelectedOptions((prev) => ({ ...prev, [optionType]: choice }));
   };
 
-  const isVarriantInStock = (choice: { [key: string]: string }) => {
-    return varriants.some((varriant) => {
-      const varriantChoices = varriant.choices;
+  const isVariantInStock = (choice: { [key: string]: string }) => {
+    return variants.some((variant) => {
+      const variantChoices = variant.choices;
 
-      if (!varriantChoices) return false;
+      if (!variantChoices) return false;
       return (
         Object.entries(choice).every(
-          ([key, value]) => varriantChoices[key] === value
+          ([key, value]) => variantChoices[key] === value
         ) &&
-        varriant.stock?.inStock &&
-        varriant.stock?.quantity &&
-        varriant.stock?.quantity > 0
+        variant.stock?.inStock &&
+        variant.stock?.quantity &&
+        variant.stock?.quantity > 0
       );
     });
   };
@@ -43,7 +56,7 @@ const CustomizeProducts = ({
           <h4 className="font-medium">Choose a {option.name}</h4>
           <ul className="flex items-center gap-3">
             {option.choices?.map((choice) => {
-              const disable = !isVarriantInStock({
+              const disable = !isVariantInStock({
                 ...selectedOptions,
                 [option.name!]: choice.description!,
               });
@@ -98,6 +111,13 @@ const CustomizeProducts = ({
           </ul>
         </div>
       ))}
+      <Add
+        productId={productId}
+        variantId={
+          selectedVariant?._id || "00000000-0000-0000-0000-000000000000"
+        }
+        stockNumber={selectedVariant?.stock?.quantity || 0}
+      />
     </div>
   );
 };

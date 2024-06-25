@@ -42,14 +42,20 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
           </div>
         )}
         <div className="h-[2px] bg-gray-100" />
-        {product.variants && product.productOptions && (
+        {product.variants && product.productOptions ? (
           <CustomizeProducts
             productId={product._id || ""}
-            varriants={product.variants || []}
+            variants={product.variants || []}
             productOptions={product.productOptions || []}
           />
+        ) : (
+          <Add
+            productId={product?._id || ""}
+            variantId="00000000-0000-0000-0000-000000000000"
+            stockNumber={product.stock?.quantity || 0}
+          />
         )}
-        <Add />
+        {/* <Add /> */}
 
         <div className="h-[2px] bg-gray-100" />
         <div className="text-sm">

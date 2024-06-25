@@ -36,7 +36,7 @@ const ProductList = ({
     };
     getProducts();
   }, [categoryId, limit, WixClient]);
-
+  console.log(data);
   return (
     <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
       {data.map((product: products.Product) => (
