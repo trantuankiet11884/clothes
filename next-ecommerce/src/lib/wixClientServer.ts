@@ -6,7 +6,6 @@ export const wixClientServer = async () => {
   let refreshToken;
 
   try {
-    // Using js-cookie to get the refreshToken
     const cookieValue = Cookies.get("refreshToken");
     refreshToken = cookieValue ? JSON.parse(cookieValue) : null;
   } catch (e) {}

@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 
 const PRODUCT_PER_PAGE = 8;
 
-const ProductList = ({
+const ProductList = async ({
   categoryId,
   limit,
   searchParams,
@@ -46,7 +46,6 @@ const ProductList = ({
             ? parseInt(searchParams.page) * (limit || PRODUCT_PER_PAGE)
             : 0
         );
-      // .skip((currentPage - 1) * (limit || PRODUCT_PER_PAGE));
 
       if (searchParams?.sort) {
         const [sortType, sortBy] = searchParams.sort.split(" ");
